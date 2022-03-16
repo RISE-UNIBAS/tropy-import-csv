@@ -13,6 +13,7 @@ class Utility:
     @staticmethod
     def load_json(file_path: str) -> list:
         """ Load a JSON object from file.
+
         :param file_path: complete path to file including filename and extension
         """
 
@@ -25,6 +26,7 @@ class Utility:
     def save_json(data: Union[List, Dict],
                   file_path: str) -> None:
         """ Save data as JSON file.
+
         :param data: the data to be saved
         :param file_path: complete path to file including filename and extension
         """
@@ -33,16 +35,16 @@ class Utility:
             dump(data, file)
 
 
-def csv2json(file_path: str):
+def csv2json(csv_path: str, json_path: str) -> None:
+    """ Convert CSV to JSON-LD.
+
+    :param csv_path: complete path to CSV file including filename and extension
+    :param json_path: complete path to JSON-LD file including filename and extension
     """
 
-    :param file_path:
-    """
+    # TODO: assert structure specifications of csv
 
-    # assert structure
-    pass
-
-    with open(file_path, encoding="utf-8") as file:
+    with open(csv_path, encoding="utf-8") as file:
         reader = csv.reader(file, delimiter=",")
         next(reader)
         graph = []
@@ -60,21 +62,14 @@ def csv2json(file_path: str):
             item["folder"] = line[7]
             item["identifier"] = line[8]
             item["rights"] = line[9]
-            images = []
-            for image in line[10].split(";"):
-                images.append({"@type": "Photo", "filename": image})
-            item["photo"] = images
+            photos = []
+            for photo_title in line[10].split(";"):
+                photo = Utility.load_json(DIR + "/tropy-photo.json")
+                photo["title"] = photo_title
+                photos.append(photo)
+            item["photo"] = photos
             graph.append(item)
 
-        return graph
-
-
-context = Utility.load_json(DIR + "/tropy-generic-context.json")
-data = {"@context": context, "@graph": csv2json(DIR + "/test.csv"), "version": "1.11.1"}
-Utility.save_json(data, DIR + "/test.json")
-
-
-# TODO: import of test.json without error, but objects are not there; perhaps missing metadata for photos?
-
-
-
+        context = Utility.load_json(DIR + "/tropy-generic-context.json")
+        data = {"@context": context, "@graph": graph, "version": "1.11.1"}
+        Utility.save_json(data, json_path)
