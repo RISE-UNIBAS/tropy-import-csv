@@ -35,11 +35,12 @@ class Utility:
             dump(data, file)
 
 
-def csv2json(csv_path: str, json_path: str) -> None:
+def csv2json(csv_path: str, json_path: str, photos_path: str) -> None:
     """ Convert CSV to JSON-LD.
 
     :param csv_path: complete path to CSV file including filename and extension
     :param json_path: complete path to JSON-LD file including filename and extension
+    :param photos_path: complete path to the photos-folder using the format "C:\\Path\\to\\photos-folder"
     """
 
     # TODO: assert structure specifications of csv
@@ -66,6 +67,8 @@ def csv2json(csv_path: str, json_path: str) -> None:
             for photo_title in line[10].split(";"):
                 photo = Utility.load_json(DIR + "/tropy-photo.json")
                 photo["title"] = photo_title
+                photo["filename"] = photo_title
+                photo["path"] = photos_path + photo_title
                 photos.append(photo)
             item["photo"] = photos
             graph.append(item)
@@ -73,3 +76,6 @@ def csv2json(csv_path: str, json_path: str) -> None:
         context = Utility.load_json(DIR + "/tropy-generic-context.json")
         data = {"@context": context, "@graph": graph, "version": "1.11.1"}
         Utility.save_json(data, json_path)
+
+
+csv2json(DIR + "/test.csv", DIR + "/test.json", "C:\\Users\\Max\\Downloads\\Bilder\Bilder\\")
