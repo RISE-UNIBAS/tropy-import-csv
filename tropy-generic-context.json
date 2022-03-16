@@ -1,0 +1,30 @@
+{
+    "@version": 1.1,
+    "@vocab": "https://tropy.org/v1/tropy#",
+    "template": {
+      "@type": "@id"
+    },
+    "photo": {
+      "@id": "https://tropy.org/v1/tropy#photo",
+      "@container": "@list"
+    },
+    "note": {
+      "@id": "https://tropy.org/v1/tropy#note",
+      "@container": "@list"
+    },
+    "selection": {
+      "@id": "https://tropy.org/v1/tropy#selection",
+      "@container": "@list"
+    },
+    "creator": "http://purl.org/dc/elements/1.1/creator",
+    "date": {
+      "@id": "http://purl.org/dc/elements/1.1/date",
+      "@type": "https://tropy.org/v1/tropy#date"
+    },
+    "identifier": "http://purl.org/dc/elements/1.1/identifier",
+    "rights": "http://purl.org/dc/elements/1.1/rights",
+    "source": "http://purl.org/dc/elements/1.1/source",
+    "title": "http://purl.org/dc/elements/1.1/title",
+    "type": "http://purl.org/dc/elements/1.1/type",
+    "audience": "http://purl.org/dc/terms/audience"
+  }
