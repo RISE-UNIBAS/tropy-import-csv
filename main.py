@@ -102,8 +102,4 @@ class Transform:
             context = _Utility.load_json(DIR + "/tropy-generic-context.json")
             data = {"@context": context, "@graph": graph, "version": "1.11.1"}
             _Utility.save_json(data, json_path)
-
-
-Transform.csv2json(csv_path=DIR + "/sample.csv",
-                   json_path=DIR + "/sample.json",
-                   photos_path="\\Path\\to\\photos\\")
+            
