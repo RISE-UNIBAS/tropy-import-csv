@@ -122,7 +122,3 @@ class Transform:
             reader = csv.reader(file, delimiter=",")
             return next(reader)
 
-
-Transform.csv2json(csv_path=DIR + "/sample.csv",
-                   json_path=DIR + "/sample.json",
-                   photos_path="\\Path\\to\\photos\\")
