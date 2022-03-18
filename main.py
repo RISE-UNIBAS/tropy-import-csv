@@ -40,9 +40,9 @@ class _Parser:
 
     @staticmethod
     def parse_photos(photos_csv: str, photos_path: str = None) -> list:
-        """
+        """ Parse photos from CSV.
 
-        :param photos_csv: CSV photos
+        :param photos_csv: photos
         :param photos_path: complete path to the photos-folder, defaults to None
         """
 
@@ -73,11 +73,10 @@ class Transform:
         :param photos_path: complete path to the photos-folder (format "\\Path\\to\\photos\\"), defaults to None
         """
 
-        # TODO: assert structure specifications of csv
-
         with open(csv_path, encoding="utf-8") as file:
             reader = csv.reader(file, delimiter=",")
-            next(reader)
+            header = next(reader)
+            assert header == Transform.required_csv_header(), "Error: CSV not formatted to specification!"
             graph = []
             for line in reader:
                 item = dict()
@@ -103,6 +102,13 @@ class Transform:
             data = {"@context": context, "@graph": graph, "version": "1.11.1"}
             _Utility.save_json(data, json_path)
 
+    @staticmethod
+    def required_csv_header():
+        """ Return the required CSV header. """
+
+        with open(DIR + "\sample.csv", encoding="utf-8") as file:
+            reader = csv.reader(file, delimiter=",")
+            return next(reader)
 
 Transform.csv2json(csv_path=DIR + "/sample.csv",
                    json_path=DIR + "/sample.json",
