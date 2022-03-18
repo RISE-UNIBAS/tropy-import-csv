@@ -1,8 +1,11 @@
 # tropy-import-csv
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RISE-UNIBAS/tropy-import-csv.git/HEAD?labpath=interactive.ipynb)
 
-Import data from a CSV into Tropy 1.11.0.
+Import data from a CSV into Tropy 1.11.0. 
 
-## Quickstart
+https://mybinder.org/v2/gh/RISE-UNIBAS/tropy-import-csv.git/HEAD?labpath=interactive.ipynb
+
+## Quickstart without Binder
 
 First convert the CSV into a JSON-LD by running 
 
@@ -21,5 +24,3 @@ yields as header the sequence of properties with the addition of `Tags`, `Photos
 ``"http://purl.org/dc/elements/1.1/title","http://purl.org/dc/elements/1.1/creator","http://purl.org/dc/elements/1.1/date","http://purl.org/dc/elements/1.1/type","http://purl.org/dc/elements/1.1/source","https://tropy.org/v1/tropy#collection","https://tropy.org/v1/tropy#box","https://tropy.org/v1/tropy#folder","http://purl.org/dc/elements/1.1/identifier","http://purl.org/dc/elements/1.1/rights",Tags,Photos,Notes``
 
 `Tags` and `Notes` are not yet implemented.
-
-
