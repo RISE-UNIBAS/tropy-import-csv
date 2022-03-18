@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import List, Optional, Dict, Union, Tuple
-from json import load, dump
+from json import load, dump, dumps
 import os.path
 import csv
 
@@ -65,42 +65,54 @@ class Transform:
     """ A collection of transformation functions. """
 
     @staticmethod
-    def csv2json(csv_path: str, json_path: str, photos_path: str = None) -> None:
+    def csv2json(csv_path: str,
+                 json_path: Union[str, None],
+                 photos_path: str = None,
+                 interactive: bool = False) -> Optional[Union[str, dict]]:
         """ Convert CSV to JSON-LD.
 
         :param csv_path: complete path to CSV file including filename and extension
-        :param json_path: complete path to JSON-LD file including filename and extension
+        :param json_path: complete path to JSON-LD file including filename and extension or None to return as string
         :param photos_path: complete path to the photos-folder (format "\\Path\\to\\photos\\"), defaults to None
+        :param interactive: toggle interactive mode, defaults to False
         """
 
-        with open(csv_path, encoding="utf-8") as file:
+        try:
+            file = open(csv_path, encoding="utf-8")
             reader = csv.reader(file, delimiter=",")
-            header = next(reader)
-            assert header == Transform.required_csv_header(), "Error: CSV not formatted to specification!"
-            graph = []
-            for line in reader:
-                item = dict()
-                item["@type"] = "Item"
-                item["template"] = "https://tropy.org/v1/templates/generic"
-                item["title"] = line[0]
-                item["creator"] = line[1]
-                item["date"] = line[2]
-                item["type"] = line[3]
-                item["source"] = line[4]
-                item["collection"] = line[5]
-                item["box"] = line[6]
-                item["folder"] = line[7]
-                item["identifier"] = line[8]
-                item["rights"] = line[9]
-                # TODO: tags
-                item["photo"] = _Parser.parse_photos(line[11], photos_path=photos_path)
-                # TODO: notes
+        except FileNotFoundError:
+            reader = csv.reader(csv_path.splitlines(), delimiter=",")
 
-                graph.append(item)
+        header = next(reader)
+        assert header == Transform.required_csv_header(), "Error: CSV not formatted to specification!"
+        graph = []
+        for line in reader:
+            item = dict()
+            item["@type"] = "Item"
+            item["template"] = "https://tropy.org/v1/templates/generic"
+            item["title"] = line[0]
+            item["creator"] = line[1]
+            item["date"] = line[2]
+            item["type"] = line[3]
+            item["source"] = line[4]
+            item["collection"] = line[5]
+            item["box"] = line[6]
+            item["folder"] = line[7]
+            item["identifier"] = line[8]
+            item["rights"] = line[9]
+            # TODO: tags
+            item["photo"] = _Parser.parse_photos(line[11], photos_path=photos_path)
+            # TODO: notes
 
-            context = _Utility.load_json(DIR + "/tropy-generic-context.json")
-            data = {"@context": context, "@graph": graph, "version": "1.11.1"}
-            _Utility.save_json(data, json_path)
+            graph.append(item)
+
+        context = _Utility.load_json(DIR + "/tropy-generic-context.json")
+        data = {"@context": context, "@graph": graph, "version": "1.11.1"}
+        if interactive is True:
+            return data
+        elif json_path is None:
+            return dumps(data)
+        _Utility.save_json(data, json_path)
 
     @staticmethod
     def required_csv_header():
@@ -109,3 +121,8 @@ class Transform:
         with open(DIR + "\sample.csv", encoding="utf-8") as file:
             reader = csv.reader(file, delimiter=",")
             return next(reader)
+
+
+Transform.csv2json(csv_path=DIR + "/sample.csv",
+                   json_path=DIR + "/sample.json",
+                   photos_path="\\Path\\to\\photos\\")
