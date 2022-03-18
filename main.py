@@ -109,7 +109,3 @@ class Transform:
         with open(DIR + "\sample.csv", encoding="utf-8") as file:
             reader = csv.reader(file, delimiter=",")
             return next(reader)
-
-Transform.csv2json(csv_path=DIR + "/sample.csv",
-                   json_path=DIR + "/sample.json",
-                   photos_path="\\Path\\to\\photos\\")
