@@ -7,7 +7,7 @@ import csv
 DIR = os.path.dirname(__file__)
 
 
-class Utility:
+class _Utility:
     """ A collection of utility functions. """
 
     @staticmethod
@@ -35,47 +35,75 @@ class Utility:
             dump(data, file)
 
 
-def csv2json(csv_path: str, json_path: str, photos_path: str) -> None:
-    """ Convert CSV to JSON-LD.
+class _Parser:
+    """ A collection of parser functions. """
 
-    :param csv_path: complete path to CSV file including filename and extension
-    :param json_path: complete path to JSON-LD file including filename and extension
-    :param photos_path: complete path to the photos-folder using the format "C:\\Path\\to\\photos-folder"
-    """
+    @staticmethod
+    def parse_photos(photos_csv: str, photos_path: str = None) -> list:
+        """
 
-    # TODO: assert structure specifications of csv
+        :param photos_csv: CSV photos
+        :param photos_path: complete path to the photos-folder, defaults to None
+        """
 
-    with open(csv_path, encoding="utf-8") as file:
-        reader = csv.reader(file, delimiter=",")
-        next(reader)
-        graph = []
-        for line in reader:
-            item = dict()
-            item["@type"] = "Item"
-            item["template"] = "https://tropy.org/v1/templates/generic"
-            item["title"] = line[0]
-            item["creator"] = line[1]
-            item["date"] = line[2]
-            item["type"] = line[3]
-            item["source"] = line[4]
-            item["collection"] = line[5]
-            item["box"] = line[6]
-            item["folder"] = line[7]
-            item["identifier"] = line[8]
-            item["rights"] = line[9]
-            photos = []
-            for photo_title in line[10].split(";"):
-                photo = Utility.load_json(DIR + "/tropy-photo.json")
-                photo["title"] = photo_title
-                photo["filename"] = photo_title
-                photo["path"] = photos_path + photo_title
-                photos.append(photo)
-            item["photo"] = photos
-            graph.append(item)
-
-        context = Utility.load_json(DIR + "/tropy-generic-context.json")
-        data = {"@context": context, "@graph": graph, "version": "1.11.1"}
-        Utility.save_json(data, json_path)
+        photos = []
+        for photo_path in photos_csv.split(";"):
+            photo = _Utility.load_json(DIR + "/tropy-photo.json")
+            if photos_path is None:
+                photo["title"] = photo_path.split("\\")[-1]
+                photo["filename"] = photo_path.split("\\")[-1]
+                photo["path"] = photo_path
+            else:
+                photo["title"] = photo_path
+                photo["filename"] = photo_path
+                photo["path"] = photos_path + photo_path
+            photos.append(photo)
+        return photos
 
 
-csv2json(DIR + "/test.csv", DIR + "/test.json", "C:\\Users\\Max\\Downloads\\Bilder\Bilder\\")
+class Transform:
+    """ A collection of transformation functions. """
+
+    @staticmethod
+    def csv2json(csv_path: str, json_path: str, photos_path: str = None) -> None:
+        """ Convert CSV to JSON-LD.
+
+        :param csv_path: complete path to CSV file including filename and extension
+        :param json_path: complete path to JSON-LD file including filename and extension
+        :param photos_path: complete path to the photos-folder (format "\\Path\\to\\photos\\"), defaults to None
+        """
+
+        # TODO: assert structure specifications of csv
+
+        with open(csv_path, encoding="utf-8") as file:
+            reader = csv.reader(file, delimiter=",")
+            next(reader)
+            graph = []
+            for line in reader:
+                item = dict()
+                item["@type"] = "Item"
+                item["template"] = "https://tropy.org/v1/templates/generic"
+                item["title"] = line[0]
+                item["creator"] = line[1]
+                item["date"] = line[2]
+                item["type"] = line[3]
+                item["source"] = line[4]
+                item["collection"] = line[5]
+                item["box"] = line[6]
+                item["folder"] = line[7]
+                item["identifier"] = line[8]
+                item["rights"] = line[9]
+                # TODO: tags
+                item["photo"] = _Parser.parse_photos(line[11], photos_path=photos_path)
+                # TODO: notes
+
+                graph.append(item)
+
+            context = _Utility.load_json(DIR + "/tropy-generic-context.json")
+            data = {"@context": context, "@graph": graph, "version": "1.11.1"}
+            _Utility.save_json(data, json_path)
+
+
+Transform.csv2json(csv_path=DIR + "/sample.csv",
+                   json_path=DIR + "/sample.json",
+                   photos_path="\\Path\\to\\photos\\")

@@ -1,0 +1,3 @@
+"http://purl.org/dc/elements/1.1/title","http://purl.org/dc/elements/1.1/creator","http://purl.org/dc/elements/1.1/date","http://purl.org/dc/elements/1.1/type","http://purl.org/dc/elements/1.1/source","https://tropy.org/v1/tropy#collection","https://tropy.org/v1/tropy#box","https://tropy.org/v1/tropy#folder","http://purl.org/dc/elements/1.1/identifier","http://purl.org/dc/elements/1.1/rights",Tags,Photos,Notes
+"Object 2","Creator 2","2001-01-01","Type 2","Source 2","Collection 2","Box 2","Folder 2","ID 2","Public Mark","test tag A, test tag B","\Path\to\photos\photo_2a.JPG;\Path\to\photos\photo_2b.JPG",""
+"Object 1","Creator 1","2000-01-01","Type 1","Source 1","Collection 1","Box 1","Folder 1","ID 1","Public Mark","test tag A","\Path\to\photos\photo_1.JPG",""
