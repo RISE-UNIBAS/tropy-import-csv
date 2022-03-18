@@ -80,7 +80,7 @@ class Transform:
         try:
             file = open(csv_path, encoding="utf-8")
             reader = csv.reader(file, delimiter=",")
-        except FileNotFoundError:
+        except (FileNotFoundError, OSError):
             reader = csv.reader(csv_path.splitlines(), delimiter=",")
 
         header = next(reader)
