@@ -1,9 +1,7 @@
 # tropy-import-csv
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RISE-UNIBAS/tropy-import-csv.git/HEAD?labpath=interactive.ipynb)
 
-Import data from a CSV into Tropy 1.11.0. 
-
-https://mybinder.org/v2/gh/RISE-UNIBAS/tropy-import-csv.git/HEAD?labpath=interactive.ipynb
+Import data from a CSV into Tropy 1.11.0.
 
 ## Quickstart without Binder
 
