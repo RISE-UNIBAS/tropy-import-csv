@@ -73,7 +73,7 @@ class Transform:
 
         :param csv_path: complete path to CSV file including filename and extension
         :param json_path: complete path to JSON-LD file including filename and extension or None to return as string
-        :param photos_path: complete path to the photos-folder (format "\\Path\\to\\photos\\"), defaults to None
+        :param photos_path: complete path to the photos-folder (format "/Path/to/photos/"), defaults to None
         :param interactive: toggle interactive mode, defaults to False
         """
 
@@ -118,7 +118,7 @@ class Transform:
     def required_csv_header():
         """ Return the required CSV header. """
 
-        with open(DIR + "\sample.csv", encoding="utf-8") as file:
+        with open(DIR + "/sample.csv", encoding="utf-8") as file:
             reader = csv.reader(file, delimiter=",")
             return next(reader)
 
