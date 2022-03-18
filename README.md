@@ -3,6 +3,10 @@
 
 Import data from a CSV into Tropy 1.11.0.
 
+Access this binder at the following URL
+
+https://mybinder.org/v2/gh/RISE-UNIBAS/tropy-import-csv.git/HEAD?labpath=interactive.ipynb
+
 ## Quickstart without Binder
 
 First convert the CSV into a JSON-LD by running 
