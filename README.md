@@ -7,6 +7,11 @@ Access this binder at the following URL
 
 https://mybinder.org/v2/gh/RISE-UNIBAS/tropy-import-csv.git/HEAD?labpath=interactive.ipynb
 
+
+## Creator
+
+This software and sample dataset were created by the University of Basel's Research and Infrastructure Support RISE (rise@unibas.ch) in March 2022.
+
 ## Quickstart without Binder
 
 First convert the CSV into a JSON-LD by running 
@@ -25,3 +30,7 @@ com/inukshuk/tropy-plugin-csv](https://github.com/inukshuk/tropy-plugin-csv). So
 `Tags` and `Notes` are not yet implemented.
 
 For the import of the JSON-LD into Tropy, follow these instructions: https://docs.tropy.org/using-tropy/add_files#importing-json-ld-files
+
+## License
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
